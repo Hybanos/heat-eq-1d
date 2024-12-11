@@ -46,6 +46,8 @@ OBJTP2DIRECT= $(OBJLIBPOISSON) tp_poisson1D_direct.o
 #
 .PHONY: all
 
+allall: all run
+
 all: bin/tp_testenv bin/tpPoisson1D_iter bin/tpPoisson1D_direct
 run: run_testenv run_tpPoisson1D_iter run_tpPoisson1D_direct
 

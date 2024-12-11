@@ -4,8 +4,7 @@ RUN apt-get update -y && \
   apt-get install -y gcc libblas-dev liblapacke-dev make vim
 
 WORKDIR /app
-COPY . .
+# COPY . .
 
 ENV HOSTNAME=docker
-RUN make all && \
-  make run
+RUN make all && make run
