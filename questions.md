@@ -49,6 +49,45 @@ Implémente DGBTRF et DGBTRS
 
 ---
 #### 8:
-$$r = \frac{||x - \hat{x}||}{||x||}$$
+formule du résidu:
+$$r = b - A\hat{x}$$
+norme résiduelle arrière:
+$$\frac{||b - A\hat{x}||}{||A||||\hat{x}||}$$
+norme résiduelle avant:
+$$\frac{||r||}{||b||} = \frac{||b - A\hat{x}||}{||b||}$$
+
+pour calculer la norme d'un vecteur `x`:
+`n = sqrt(ddot(&n, x, 1, x, 1));`
+
+pour $||x - \hat{x}||$:
+`daxpy(&n, -1, x^, 1, x, 1);`
+
 
 ## Exercice 4:
+
+### 2-3:
+Soit un vecteur $x$ qu'aquedes1:
+on a $AB x = y$ tel que y est un vecteur de nul avec des 1 à chaque extrémités 
+$$
+\begin{bmatrix}
+ 0 &-1 &-1 &-1 &-1  \\
+ 2 & 2 & 2 & 2 & 2  \\
+-1 &-1 &-1 &-1 & 0 
+\end{bmatrix}
+\times
+\begin{bmatrix}
+1 \\
+1 \\
+1 \\
+1 \\
+1 
+\end{bmatrix}=
+\begin{bmatrix}
+1 \\
+0 \\
+0 \\
+0 \\
+1 
+\end{bmatrix}
+$$
+
