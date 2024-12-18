@@ -44,9 +44,29 @@ double relative_forward_error(double* x, double* y, int* la){
 }
 
 int indexABCol(int i, int j, int *lab){
-    return (j * *lab + i);
+    // printf("i: %d, j: %d, lab: %d\n", i, j, *lab);
+    return (j * (*lab) + i);
 }
 
 int dgbtrftridiag(int *la, int*n, int *kl, int *ku, double *AB, int *lab, int *ipiv, int *info){
-  return *info;
+    
+    double p = 0.;
+    *info = 0;
+
+    if (!*kl || !*ku) {
+        *info = -1;
+        return *info;
+    }
+
+    for (int j = 0; j < *n - 1; j++) {
+        p = AB[indexABCol(0, j+1, lab)] / AB[indexABCol(1, j, lab)];
+        AB[indexABCol(0, j+1, lab)] = p;
+        AB[indexABCol(1, j+1, lab)] -= p * AB[indexABCol(2, j, lab)];
+    }
+
+    for (int j = 0; j < *n; j++) {
+        ipiv[j] = j+1;
+    }
+
+    return *info;
 }

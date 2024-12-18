@@ -61,13 +61,13 @@ tpPoisson1D_direct: bin/tpPoisson1D_direct
 	$(CC) $(OPTC) -c $(INCL) $<
 
 bin/tp_testenv: $(OBJENV) 
-	$(CC) -o bin/tp_testenv $(OPTC) $(OBJENV) $(LIBS)
+	$(CC) -g -o bin/tp_testenv $(OPTC) $(OBJENV) $(LIBS)
 
 bin/tpPoisson1D_iter: $(OBJTP2ITER)
-	$(CC) -o bin/tpPoisson1D_iter $(OPTC) $(OBJTP2ITER) $(LIBS)
+	$(CC) -g -o bin/tpPoisson1D_iter $(OPTC) $(OBJTP2ITER) $(LIBS)
 
 bin/tpPoisson1D_direct: $(OBJTP2DIRECT)
-	$(CC) -o bin/tpPoisson1D_direct $(OPTC) $(OBJTP2DIRECT) $(LIBS)
+	$(CC) -g -o bin/tpPoisson1D_direct $(OPTC) $(OBJTP2DIRECT) $(LIBS)
 
 run_testenv:
 	bin/tp_testenv
@@ -86,5 +86,5 @@ clean:
 	rm *.o bin/* *.dat
 
 dock:
-	docker build . -f docker/Dockerfile -t poisson
-	docker run -ti --rm -v .:/app poisson
+	sudo docker build . -f docker/Dockerfile -t poisson
+	sudo docker run -ti --rm -v .:/app poisson

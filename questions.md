@@ -91,3 +91,21 @@ $$
 \end{bmatrix}
 $$
 
+## Exercice 5:
+### 1:
+cf. code
+
+### 2:
+
+les temps mesurés pour l'execution de DGBSV par rapport à DGBTRF et DGBTRS sont similaires, ce qui est normal car DGBSV fait les appels à ces deux fonctions.
+
+| valeurs de `la` | temps |
+| --- | --- |
+| 1000 | ~40000ns |
+| 10000 | ~244000ns |
+| 100000 | ~1300000ns |
+
+On a donc une très bonne complexité (de l'ordre de $O(n)$), ce qui est expliqué par le stockage en bande des matrices.
+
+## Exercice 6:
+cf. code

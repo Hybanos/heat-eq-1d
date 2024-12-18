@@ -36,7 +36,7 @@ int main(int argc,char *argv[])
   }
 
   NRHS=1;
-  nbpoints=10;
+  nbpoints=100000;
   la=nbpoints-2;
   T0=-5.0;
   T1=5.0;
@@ -62,6 +62,10 @@ int main(int argc,char *argv[])
 
   AB = (double *) malloc(sizeof(double)*lab*la);
 
+  // clock_t tic;
+  struct timespec tic, tac;
+  size_t time = 0;
+
   set_GB_operator_colMajor_poisson1D(AB, &lab, &la, &kv);
   write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "AB.dat");
 
@@ -70,11 +74,13 @@ int main(int argc,char *argv[])
 
   /* LU Factorization */
   if (IMPLEM == TRF) {
+    clock_gettime(CLOCK_REALTIME, &tic);
     dgbtrf_(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
   }
 
   /* LU for tridiagonal matrix  (can replace dgbtrf_) */
   if (IMPLEM == TRI) {
+    clock_gettime(CLOCK_REALTIME, &tic);
     dgbtrftridiag(&la, &la, &kl, &ku, AB, &lab, ipiv, &info);
   }
 
@@ -82,6 +88,8 @@ int main(int argc,char *argv[])
     /* Solution (Triangular) */
     if (info==0){
       dgbtrs_("N", &la, &kl, &ku, &NRHS, AB, &lab, ipiv, RHS, &la, &info);
+      clock_gettime(CLOCK_REALTIME, &tac);
+      time += (tac.tv_sec - tic.tv_sec) * 1e9 + (tac.tv_nsec - tic.tv_nsec);
       if (info!=0){printf("\n INFO DGBTRS = %d\n",info);}
     }else{
       printf("\n INFO = %d\n",info);
@@ -90,8 +98,17 @@ int main(int argc,char *argv[])
 
   /* It can also be solved with dgbsv */
   if (IMPLEM == SV) {
-    // TODO : use dgbsv
+    clock_gettime(CLOCK_REALTIME, &tic);
+    dgbsv_(&la, &kl, &ku, &NRHS, AB, &lab, ipiv, RHS, &la, &info);
+    clock_gettime(CLOCK_REALTIME, &tac);
+    time += (tac.tv_sec - tic.tv_sec) * 1e9 + (tac.tv_nsec - tic.tv_nsec);
+    if (info) printf("OOPS\n");
   }
+
+
+  if (IMPLEM == TRF) printf("dgbtrf time: %lu\n", time);
+  if (IMPLEM == TRI) printf("dgbtrftridiag time: %lu\n", time);
+  if (IMPLEM == SV) printf("dgbsv time: %lu\n", time);
 
   write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "LU.dat");
   write_xy(RHS, X, &la, "SOL.dat");
