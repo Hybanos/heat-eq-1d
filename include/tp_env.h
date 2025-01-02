@@ -9,4 +9,5 @@
 #include <float.h>
 #include <values.h>
 #include <limits.h>
+#include <string.h>
 #include "atlas_headers.h"
