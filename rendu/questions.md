@@ -131,3 +131,28 @@ De la même manière que pour Richardson, l'erreur avant relative décroît de m
 ## Méthode de Gauss-Seidel:
 ![Convergence richardson](gauss-seidel.png)
 Pour la méthode de Gauss-seidel le résidu diverge. J'ai fait de mon mieux mais j'ai pas trouvé l'erreur.
+
+# Analyse de complexité
+
+| fonction | complexité temps | complexité espace |
+|---|---|---|
+| **lib_poisson_1D.c** |
+| dgbset_GB_operator_colMajor_poisson1Dtrf | O(la) | pas d'allocation |
+| set_GB_operator_colMajor_poisson1D_Id | O(la*lab) | - |
+| set_dense_RHS_DBC_1D | O(la) | - |
+| set_analytical_solution_DBC_1D | O(la) | - |
+| set_grid_points_1D | O(la) | - |
+| relative_forward_error | O(la) | - |
+| indexABCol | O(1) | - |
+| dgbtrftridiag | O(n) | - |
+| **lib_poisson_1D_richardson.c** |
+| eig_poisson1D | O(la) | - |
+| eigmax_poisson1D | O(1) | - |
+| eigmin_poisson1D | O(1) | - |
+| richardson_alpha_opt | O(1) | - |
+| richardson_alpha | * | la |
+| extract_MB_jacobi_tridiag | O(la) | - |
+| extract_MB_gauss_seidel_tridiag | O(la) | - |
+| richardson_MB | * | la |
+
+Les fonctions ayant une complexité temporelle '*' ont une complexité variable, car elles dépendent de la convergence des méthodes de calculs.
