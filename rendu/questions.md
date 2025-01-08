@@ -127,3 +127,7 @@ L'erreur avant semble décroître de manière logarithmique.
 ## Méthode de Jacobi:
 ![Convergence richardson](jacobi.png)
 De la même manière que pour Richardson, l'erreur avant relative décroît de manière logarithmique. En l'occurence, le résidu est le même pour les deux implémentations.
+
+## Méthode de Gauss-Seidel:
+![Convergence richardson](gauss-seidel.png)
+Pour la méthode de Gauss-seidel le résidu diverge. J'ai fait de mon mieux mais j'ai pas trouvé l'erreur.

@@ -72,6 +72,12 @@ void extract_MB_jacobi_tridiag(double *AB, double *MB, int *lab, int *la,int *ku
 }
 
 void extract_MB_gauss_seidel_tridiag(double *AB, double *MB, int *lab, int *la,int *ku, int*kl, int *kv){
+    memset(MB, 0, *la**kv*sizeof(double));
+
+    for (int i = 0; i < *la; i++) {
+        MB[*lab * i  +1] = AB[i * (*lab) + 1]; 
+        MB[*lab * i  +2] = AB[i * (*lab) + 2]; 
+    }
 }
 
 void richardson_MB(double *AB, double *RHS, double *X, double *MB, int *lab, int *la,int *ku, int*kl, double *tol, int *maxit, double *resvec, int *nbite){
