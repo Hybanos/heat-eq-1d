@@ -90,7 +90,6 @@ int main(int argc,char *argv[])
 
   /* Solve with Richardson alpha */
   if (IMPLEM == ALPHA) {
-    printf("hihi\n");
     richardson_alpha(AB, RHS, SOL, &opt_alpha, &lab, &la, &ku, &kl, &tol, &maxit, resvec, &nbite);
   }
 

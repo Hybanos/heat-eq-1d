@@ -32,16 +32,33 @@ double richardson_alpha_opt(int *la){
 void richardson_alpha(double *AB, double *RHS, double *X, double *alpha_rich, int *lab, int *la,int *ku, int*kl, double *tol, int *maxit, double *resvec, int *nbite){
     double *y = malloc(*la * sizeof(double));
     memcpy(y, RHS, *la * sizeof(double));
-    double ny = cblas_dnrm2(*la, y, 1);
-    double res = 999999;
-    printf("haha\n");
-    // do {
-    //     cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
-    //     ny = cblas_dnrm2(*la, y, 1);
-        
-    // } while(res > *tol && *nbite < *maxit);
 
-    free(y);
+    cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
+
+    double ny = cblas_dnrm2(*la, y, 1) / cblas_dnrm2(*la, RHS, 1);
+    resvec[0] = ny;
+    // for (int i = 0; i < *la; i++) {
+    //         printf("%f ", X[i]);
+    // }
+    // printf("\n");
+    for (*nbite = 1; *nbite < *maxit; (*nbite)++) {
+        cblas_daxpy(*la, *alpha_rich, y, 1, X, 1);
+        memcpy(y, RHS, *la * sizeof(double));
+
+        cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
+        
+        // for (int i = 0; i < *la; i++) {
+        //     printf("%f ", y[i]);
+        // }
+        // printf("\n");
+
+        ny = cblas_dnrm2(*la, y, 1) / cblas_dnrm2(*la, RHS, 1);
+        resvec[*nbite] = ny;
+
+        if (ny < *tol) break;
+    }
+
+    // free(y);
 }
 
 void extract_MB_jacobi_tridiag(double *AB, double *MB, int *lab, int *la,int *ku, int*kl, int *kv){

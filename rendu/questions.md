@@ -4,9 +4,10 @@ Pour les questions suivantes on a:
  - vecteurs lettres latines minuscule
  - matrices lettres latines majuscule
 
+# Méthode directe:
+
 ## Exercice 3
 
----
 #### 1:
 Comme un pointeur vers double (`double *` et non `double **`)
 Par example pour une matrice n*m:
@@ -116,3 +117,8 @@ cf. code
 ### 2:
 
 On sait que $A=LU$, on peut donc effectuer cette multiplication de $L$ et $U$ pour vérifier qu'on obtient bien la matrice A originelle.
+
+# Méthodes itératives:
+
+## Méthode de Richardson alpha:
+![Convergence richardson](richardson.png)
