@@ -155,4 +155,4 @@ Pour la méthode de Gauss-seidel le résidu diverge. J'ai fait de mon mieux mais
 | extract_MB_gauss_seidel_tridiag | O(la) | - |
 | richardson_MB | * | la |
 
-Les fonctions ayant une complexité temporelle '*' ont une complexité variable, car elles dépendent de la convergence des méthodes de calculs.
+Les fonctions ayant une complexité temporelle '*' ont une complexité variable, car elles dépendent de la convergence des méthodes de calculs. Les fonctions notés '-' pour la complexité en espace n'ont pas d'allocations.
