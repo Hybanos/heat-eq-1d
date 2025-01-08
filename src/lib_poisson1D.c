@@ -56,10 +56,15 @@ void set_grid_points_1D(double* x, int* la){
 }
 
 double relative_forward_error(double* x, double* y, int* la){
-    double ny = cblas_ddot(*la, y, 1, y, 1);
-    double nr = cblas_ddot(*la, x, 1, y, 1);
+    double a;
+    double b;
 
-    return sqrt(nr) / sqrt(ny);
+    for (size_t i = 0; i < *la; i++) {
+        a += (x[i] - y[i]) * (x[i] - y[i]);
+        b += x[i] * x[i];
+    }
+
+    return sqrt(a) / sqrt(b);
 }
 
 int indexABCol(int i, int j, int *lab){
@@ -78,9 +83,10 @@ int dgbtrftridiag(int *la, int*n, int *kl, int *ku, double *AB, int *lab, int *i
     }
 
     for (int j = 0; j < *n - 1; j++) {
-        p = AB[indexABCol(0, j+1, lab)] / AB[indexABCol(1, j, lab)];
-        AB[indexABCol(0, j+1, lab)] = p;
-        AB[indexABCol(1, j+1, lab)] -= p * AB[indexABCol(2, j, lab)];
+
+        p = AB[indexABCol(3, j, lab)] / AB[indexABCol(2, j, lab)];
+        AB[indexABCol(1, j+1, lab)] = p;
+        AB[indexABCol(2, j+1, lab)] -= p * AB[indexABCol(3, j, lab)];
     }
 
     for (int j = 0; j < *n; j++) {

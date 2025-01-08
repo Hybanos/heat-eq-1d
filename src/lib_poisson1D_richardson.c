@@ -33,13 +33,13 @@ void richardson_alpha(double *AB, double *RHS, double *X, double *alpha_rich, in
     double *y = malloc(*la * sizeof(double));
     memcpy(y, RHS, *la * sizeof(double));
     double ny = cblas_dnrm2(*la, y, 1);
-    double res = 999999;v
+    double res = 999999;
     printf("haha\n");
-    do {
-        cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
-        ny = cblas_dnrm2(*la, y, 1);
+    // do {
+    //     cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
+    //     ny = cblas_dnrm2(*la, y, 1);
         
-    } while(res > *tol && *nbite < *maxit);
+    // } while(res > *tol && *nbite < *maxit);
 
     free(y);
 }

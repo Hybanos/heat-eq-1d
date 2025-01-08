@@ -105,7 +105,6 @@ int main(int argc,char *argv[])
     if (info) printf("OOPS\n");
   }
 
-
   if (IMPLEM == TRF) printf("dgbtrf time: %lu\n", time);
   if (IMPLEM == TRI) printf("dgbtrftridiag time: %lu\n", time);
   if (IMPLEM == SV) printf("dgbsv time: %lu\n", time);

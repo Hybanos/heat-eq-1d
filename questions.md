@@ -108,4 +108,11 @@ les temps mesurés pour l'execution de DGBSV par rapport à DGBTRF et DGBTRS son
 On a donc une très bonne complexité (de l'ordre de $O(n)$), ce qui est expliqué par le stockage en bande des matrices.
 
 ## Exercice 6:
+
+### 1:
+
 cf. code
+
+### 2:
+
+On sait que $A=LU$, on peut donc effectuer cette multiplication de $L$ et $U$ pour vérifier qu'on obtient bien la matrice A originelle.
