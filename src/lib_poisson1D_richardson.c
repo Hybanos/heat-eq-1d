@@ -31,16 +31,17 @@ double richardson_alpha_opt(int *la){
 
 void richardson_alpha(double *AB, double *RHS, double *X, double *alpha_rich, int *lab, int *la,int *ku, int*kl, double *tol, int *maxit, double *resvec, int *nbite){
     double *y = malloc(*la * sizeof(double));
-    memcpy(y, RHS, *la);
-    double ny = clbas_dnrm2(*la, y, 1);
-    double res = 999999;
-
+    memcpy(y, RHS, *la * sizeof(double));
+    double ny = cblas_dnrm2(*la, y, 1);
+    double res = 999999;v
+    printf("haha\n");
     do {
         cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
         ny = cblas_dnrm2(*la, y, 1);
         
     } while(res > *tol && *nbite < *maxit);
 
+    free(y);
 }
 
 void extract_MB_jacobi_tridiag(double *AB, double *MB, int *lab, int *la,int *ku, int*kl, int *kv){

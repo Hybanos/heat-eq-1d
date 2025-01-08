@@ -36,12 +36,12 @@ int main(int argc,char *argv[])
   }
 
   NRHS=1;
-  nbpoints=100000;
+  nbpoints=100;
   la=nbpoints-2;
   T0=-5.0;
   T1=5.0;
 
-  printf("--------- Poisson 1D ---------\n\n");
+  printf("--------- Poisson 1D ---------ee\n\n");
   RHS=(double *) malloc(sizeof(double)*la);
   EX_SOL=(double *) malloc(sizeof(double)*la);
   X=(double *) malloc(sizeof(double)*la);
