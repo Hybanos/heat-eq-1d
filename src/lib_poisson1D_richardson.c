@@ -34,14 +34,16 @@ void richardson_alpha(double *AB, double *RHS, double *X, double *alpha_rich, in
     memcpy(y, RHS, *la * sizeof(double));
 
     cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
-
-    double ny = cblas_dnrm2(*la, y, 1) / cblas_dnrm2(*la, RHS, 1);
+    
+    double n = cblas_dnrm2(*la, RHS, 1);
+    double ny = cblas_dnrm2(*la, y, 1) / n;
     resvec[0] = ny;
     // for (int i = 0; i < *la; i++) {
     //         printf("%f ", X[i]);
     // }
     // printf("\n");
-    for (*nbite = 1; *nbite < *maxit; (*nbite)++) {
+    do {
+        (*nbite)++;
         cblas_daxpy(*la, *alpha_rich, y, 1, X, 1);
         memcpy(y, RHS, *la * sizeof(double));
 
@@ -52,21 +54,51 @@ void richardson_alpha(double *AB, double *RHS, double *X, double *alpha_rich, in
         // }
         // printf("\n");
 
-        ny = cblas_dnrm2(*la, y, 1) / cblas_dnrm2(*la, RHS, 1);
+        ny = cblas_dnrm2(*la, y, 1) / n;
         resvec[*nbite] = ny;
 
-        if (ny < *tol) break;
-    }
+    } while(*nbite < *maxit && ny > *tol);
 
-    // free(y);
+    free(y);
 }
 
 void extract_MB_jacobi_tridiag(double *AB, double *MB, int *lab, int *la,int *ku, int*kl, int *kv){
+    memset(MB, 0, *la**kv*sizeof(double));
+
+    for (size_t i = 0; i < *la; i++) {
+        size_t index = i * (*kv + *ku + *kl);
+        MB[1 + index] = 1. / AB[1 + index];
+    }
 }
 
 void extract_MB_gauss_seidel_tridiag(double *AB, double *MB, int *lab, int *la,int *ku, int*kl, int *kv){
 }
 
 void richardson_MB(double *AB, double *RHS, double *X, double *MB, int *lab, int *la,int *ku, int*kl, double *tol, int *maxit, double *resvec, int *nbite){
+    double *y = malloc(*la * sizeof(double));
+    memcpy(y, RHS, *la * sizeof(double));
+    memset(X, 0, *la * sizeof(double));
+
+    cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
+
+    double n = cblas_dnrm2(*la, RHS, 1);
+    double ny = cblas_dnrm2(*la, y, 1);
+    resvec[0] = ny / n;
+
+    do {
+        (*nbite)++;
+        // printf("%d\n", *nbite);
+        cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, 1.0, MB, *lab, y, 1, 1.0, X, 1);
+        memcpy(y, RHS, *la * sizeof(double));
+
+        cblas_dgbmv(CblasColMajor, CblasNoTrans, *la, *la, *kl, *ku, -1.0, AB, *lab, X, 1, 1.0, y, 1);
+
+        ny = cblas_dnrm2(*la, y, 1) / n;
+        resvec[*nbite] = ny;
+
+        // if (ny < *tol) break;
+    } while(*nbite < *maxit && ny > *tol);
+
+    free(y);
 }
 

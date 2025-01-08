@@ -122,3 +122,8 @@ On sait que $A=LU$, on peut donc effectuer cette multiplication de $L$ et $U$ po
 
 ## Méthode de Richardson alpha:
 ![Convergence richardson](richardson.png)
+L'erreur avant semble décroître de manière logarithmique.
+
+## Méthode de Jacobi:
+![Convergence richardson](jacobi.png)
+De la même manière que pour Richardson, l'erreur avant relative décroît de manière logarithmique. En l'occurence, le résidu est le même pour les deux implémentations.
