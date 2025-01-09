@@ -8,7 +8,7 @@
 void eig_poisson1D(double* eigval, int *la){
     double h = (1.0 / ((double) (*la) + 1.0));
     for (int k=1; k < *la; k++) {
-        double sin_theta = sin(((double) k) * M_PI * h / 20);
+        double sin_theta = sin(((double) k) * M_PI * h / 2.0);
         eigval[k-1] = 4.0 * sin_theta * sin_theta;
     }
 }
